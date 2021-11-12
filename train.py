@@ -104,7 +104,7 @@ train_labels_p = len(train_files_p) * [1]
 val_labels_p = len(val_files_p) * [1]
 test_labels_p = len(test_files_p) * [1]
 
-batch_size = 1
+batch_size = 2
 num_workers = 4
 
 train_dataset_p = ImageData(train_files_p, train_labels_p,
@@ -164,7 +164,7 @@ for epoch in range(1,opt.niter+1):
         images = torch.cat([images_isic, images_sd])
         one_hot_targets_isic = torch.from_numpy(np.eye(2)[labels_isic.reshape(-1)])
         one_hot_targets_sd = torch.from_numpy(np.eye(2)[labels_sd.reshape(-1)])
-        gt_classes = torch.stack([one_hot_targets_isic, one_hot_targets_sd])
+        gt_classes = torch.concat([one_hot_targets_isic, one_hot_targets_sd])
         gt_classes = gt_classes[:,None,:]
         gt_boxes_isic = torch.from_numpy(np.repeat(np.array([[[0.5,0.5,1,1]]]), len(images_isic), axis=0))
         gt_boxes_sd = torch.from_numpy(np.repeat(np.array([[[0.0, 0.0, 0, 0]]]), len(images_isic), axis=0))
